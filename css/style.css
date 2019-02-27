@@ -4451,8 +4451,14 @@ body.vjs-full-window {
     background-image: url(../images/login/imac-2x.png);
   }
 }
+
+.snapcode {
+  margin-left: auto;
+	margin-right: auto;
+	display: block;
+}
 footer {
-  background-color: #edeff1;
+  background-color: #213236;
   color: #bac1c8;
   font-size: 15px;
   padding: 0;
