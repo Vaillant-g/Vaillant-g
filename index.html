@@ -5,12 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>geoguessr aim_map</title>
   <style>
-    html,
-    body {
+    html, body {
       height: 100%; /* Assurer que le corps et html prennent 100% de la hauteur */
       margin: 0; /* Enlever les marges par défaut */
       padding: 0; /* Enlever les espaces de padding */
-      text-align: left;
+      box-sizing: border-box; /* Inclure padding et border dans les calculs de hauteur et largeur */
     }
 
     body {
@@ -48,22 +47,23 @@
     .container {
       display: flex;
       height: calc(100vh - 80px); /* Hauteur de la fenêtre moins la hauteur de l'en-tête */
-      margin: 20px auto;
       max-width: 1200px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       flex-direction: column; /* Par défaut : dessus/dessous */
+      padding: 0; /* Enlever le padding */
+      margin: 0 auto; /* Centrer horizontalement */
     }
 
     .container.horizontal {
       flex-direction: row; /* Pour l'affichage côte à côte */
     }
 
-    #map,
-    #street-view {
+    #map, #street-view {
       flex: 1;
       height: 100%;
+      box-sizing: border-box; /* Inclure padding et border dans les calculs */
     }
 
     #map {
@@ -136,8 +136,6 @@
         west: 3.1651,
       };
 
-      placeMarkersInBounds(bounds);
-
       // Écouter les clics sur la carte
       map.addListener("click", (event) => {
         const clickedLocation = event.latLng;
@@ -156,30 +154,6 @@
           }
         );
       });
-    }
-
-    function placeMarkersInBounds(bounds) {
-      const step = 0.01; // Pas pour les coordonnées
-      for (let lat = bounds.south; lat <= bounds.north; lat += step) {
-        for (let lng = bounds.west; lng <= bounds.east; lng += step) {
-          const location = new google.maps.LatLng(lat, lng);
-
-          streetViewService.getPanorama(
-            { location: location, radius: 50 },
-            (data, status) => {
-              if (status === google.maps.StreetViewStatus.OK) {
-                // Ajouter un marqueur pour chaque endroit avec des images Street View
-                new google.maps.Marker({
-                  position: location,
-                  map: map,
-                  title: "Street View disponible ici",
-                  icon: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
-                });
-              }
-            }
-          );
-        }
-      }
     }
 
     // Toggle function
