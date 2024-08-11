@@ -1,51 +1,54 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Intégration Street View Interactive</title>
     <style>
-        /* Style pour la div Street View */
-        #street-view {
-            height: 500px; /* Hauteur du Street View */
-            width: 100%; /* Largeur du Street View */
-        }
+      /* Style pour la div Street View */
+      #street-view {
+        height: 500px; /* Hauteur du Street View */
+        width: 100%; /* Largeur du Street View */
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <h1>Google Maps Street View Interactive</h1>
-    <div id="street-view"></div>
+
+    <div id="street-view" style="margin-top: 30px"></div>
 
     <script>
-        let panorama;
+      let panorama;
 
-        function initStreetView() {
-            // Coordonées pour le Street View initial
-            const location = {lat: 37.869260, lng: -122.254811}; // Exemple : Berkeley, CA
-            panorama = new google.maps.StreetViewPanorama(
-                document.getElementById('street-view'),
-                {
-                    position: location,
-                    pov: {
-                        heading: 165,
-                        pitch: 0
-                    },
-                    zoom: 1
-                }
-            );
+      function initStreetView() {
+        // Coordonées pour le Street View initial
+        const location = { lat: 37.86926, lng: -122.254811 }; // Exemple : Berkeley, CA
+        panorama = new google.maps.StreetViewPanorama(
+          document.getElementById("street-view"),
+          {
+            position: location,
+            pov: {
+              heading: 165,
+              pitch: 0,
+            },
+            zoom: 1,
+          }
+        );
 
-            // Ajouter un événement click pour déplacer le panorama
-            panorama.addListener('click', function(event) {
-                const newLocation = {
-                    lat: event.latLng.lat(),
-                    lng: event.latLng.lng()
-                };
-                panorama.setPosition(newLocation);
-            });
-        }
+        // Ajouter un événement click pour déplacer le panorama
+        panorama.addListener("click", function (event) {
+          const newLocation = {
+            lat: event.latLng.lat(),
+            lng: event.latLng.lng(),
+          };
+          panorama.setPosition(newLocation);
+        });
+      }
     </script>
-    <script async defer
-    src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&callback=initStreetView">
-    </script>
-</body>
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAf7UIljn6JDxuDYjCJm3o4NR4DzrdK4tA&callback=initStreetView"
+    ></script>
+  </body>
 </html>
