@@ -1,149 +1,184 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>geoguessr aim_map</title>
-  <style>
-    html, body {
-      height: 100%; /* Assurer que le corps et html prennent 100% de la hauteur */
-      margin: 0; /* Enlever les marges par défaut */
-      padding: 0; /* Enlever les espaces de padding */
-      box-sizing: border-box; /* Inclure padding et border dans les calculs de hauteur et largeur */
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>geoguessr aim_map</title>
+    <style>
+      html,
+      body {
+        height: 100%; /* Assurer que le corps et html prennent 100% de la hauteur */
+        margin: 0; /* Enlever les marges par défaut */
+        padding: 0; /* Enlever les espaces de padding */
+        box-sizing: border-box; /* Inclure padding et border dans les calculs de hauteur et largeur */
+      }
 
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #333;
-      color: white;
-    }
+      body {
+        font-family: Arial, sans-serif;
+        /* background-color: #333; */
+        color: white;
+      }
 
-    .header {
-      background-color: #333;
-      color: white;
-      padding: 20px;
-      display: flex;
-      justify-content: space-between; /* Espace entre les éléments enfants */
-      align-items: center; /* Alignement vertical au centre */
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+      .header {
+        background-color: #333;
+        color: white;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between; /* Espace entre les éléments enfants */
+        align-items: center; /* Alignement vertical au centre */
+        max-width: 1200px;
+        margin: 0 auto;
+      }
 
-    .title {
-      margin: 0;
-      font-size: 24px;
-    }
+      .title {
+        margin: 0;
+        font-size: 24px;
+      }
+			.help {
+				padding: 20px;
+				color:#333;
+				background-color: rgba(150, 150, 150, 0) !important;		
+			}
 
-    #toggle-button {
-      padding: 10px 20px;
-      background-color: #4caf50;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
+      #toggle-button {
+        padding: 10px 20px;
+        background-color: #4caf50;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+      }
 
-    .container {
-      display: flex;
-      height: calc(100vh - 80px); /* Hauteur de la fenêtre moins la hauteur de l'en-tête */
-      max-width: 1200px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      flex-direction: column; /* Par défaut : dessus/dessous */
-      padding: 0; /* Enlever le padding */
-      margin: 0 auto; /* Centrer horizontalement */
-    }
+      .container {
+        display: flex;
+        height: calc(
+          100vh - 80px
+        ); /* Hauteur de la fenêtre moins la hauteur de l'en-tête */
+        max-width: 1200px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        overflow: hidden;
+        flex-direction: column; /* Par défaut : dessus/dessous */
+        padding: 0; /* Enlever le padding */
+        margin: 0 auto; /* Centrer horizontalement */
+      }
 
-    .container.horizontal {
-      flex-direction: row; /* Pour l'affichage côte à côte */
-    }
+      .container.horizontal {
+        flex-direction: row; /* Pour l'affichage côte à côte */
+      }
 
-    #map, #street-view {
-      flex: 1;
-      height: 100%;
-      box-sizing: border-box; /* Inclure padding et border dans les calculs */
-    }
+      #map,
+      #street-view {
+        flex: 1;
+        height: 100%;
+        box-sizing: border-box; /* Inclure padding et border dans les calculs */
+      }
 
-    #map {
-      border-bottom: 2px solid #ddd;
-    }
+      #map {
+        border-bottom: 2px solid #ddd;
+      }
 
-    #street-view {
-      border-top: 2px solid #ddd;
-    }
+      #street-view {
+        border-top: 2px solid #ddd;
+      }
 
-    .container.horizontal #map {
-      border-bottom: none;
-      border-right: 2px solid #ddd;
-    }
+      .container.horizontal #map {
+        border-bottom: none;
+        border-right: 2px solid #ddd;
+      }
 
-    .container.horizontal #street-view {
-      border-top: none;
-      border-left: 2px solid #ddd;
-    }
-  </style>
-</head>
-<body>
-  <div class="header">
-    <span class="title">geoguessr aim_map</span>
-    <button id="toggle-button">Afficher côte à côte</button>
-  </div>
+      .container.horizontal #street-view {
+        border-top: none;
+        border-left: 2px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">
+      <span class="title">geoguessr aim_map</span>
+      <button id="toggle-button">Afficher côte à côte</button>
+    </div>
+		<div class="help">
+			<p>Drag & drop le marker sur la vue google maps pour actualiser la vue streetview. </p>
+			
+		</div>
 
-  <div class="container" id="container">
-    <div id="map"></div>
-    <div id="street-view"></div>
-  </div>
+    <div class="container" id="container">
+      <div id="map"></div>
+      <div id="street-view"></div>
+    </div>
 
-  <script>
-    let map;
-    let panorama;
-    let streetViewService;
+    <script>
+      let map;
+      let panorama;
+      let streetViewService;
 
-    function initMap() {
-      const initialLocation = { lat: 43.3441, lng: 3.2151 }; // Béziers, France
+      function initMap() {
+        const initialLocation = { lat: 43.3441, lng: 3.2151 }; // Béziers, France
 
-      // Initialisation de la carte
-      map = new google.maps.Map(document.getElementById("map"), {
-        center: initialLocation,
-        zoom: 4,
-      });
+        // Initialisation de la carte
+        map = new google.maps.Map(document.getElementById("map"), {
+          center: initialLocation,
+          zoom: 4,
+        });
 
-      // Initialisation de Street View
-      panorama = new google.maps.StreetViewPanorama(
-        document.getElementById("street-view"),
-        {
-          position: initialLocation,
-          pov: {
-            heading: 165,
-            pitch: 0,
-          },
-          zoom: 1,
-        }
-      );
+        // Initialisation de Street View
+        panorama = new google.maps.StreetViewPanorama(
+          document.getElementById("street-view"),
+          {
+            position: initialLocation,
+            pov: {
+              heading: 165,
+              pitch: 0,
+            },
+            zoom: 1,
+          }
+        );
 
-      map.setStreetView(panorama);
+        map.setStreetView(panorama);
 
-      // Initialisation du service Street View
-      streetViewService = new google.maps.StreetViewService();
+        // Initialisation du service Street View
+        streetViewService = new google.maps.StreetViewService();
 
-      // Définir les limites pour la zone d'intérêt autour de Béziers
-      const bounds = {
-        north: 43.3741,
-        south: 43.3141,
-        east: 3.2651,
-        west: 3.1651,
-      };
+        // Définir les limites pour la zone d'intérêt autour de Béziers
+        const bounds = {
+          north: 43.3741,
+          south: 43.3141,
+          east: 3.2651,
+          west: 3.1651,
+        };
 
-      // Écouter les clics sur la carte
+        // Écouter les clics sur la carte
+        map.addListener("click", (event) => {
+          const clickedLocation = event.latLng;
+
+          streetViewService.getPanorama(
+            { location: clickedLocation, radius: 50 },
+            (data, status) => {
+              if (status === google.maps.StreetViewStatus.OK) {
+                // Mettre à jour la position de Street View
+                panorama.setPosition(clickedLocation);
+              } else {
+                console.log(
+                  "Aucune image Street View disponible pour cet emplacement."
+                );
+              }
+            }
+          );
+        });
+      }
+      // test
       map.addListener("click", (event) => {
         const clickedLocation = event.latLng;
-
+        console.log("ABC clickedLocation", clickedLocation);
         streetViewService.getPanorama(
           { location: clickedLocation, radius: 50 },
           (data, status) => {
             if (status === google.maps.StreetViewStatus.OK) {
+              // Mettre à jour la position du marqueur
+              streetViewMarker.setPosition(clickedLocation);
+
               // Mettre à jour la position de Street View
               panorama.setPosition(clickedLocation);
             } else {
@@ -154,26 +189,31 @@
           }
         );
       });
-    }
+      // test
+      // test
+      // test
+      // test
 
-    // Toggle function
-    document.getElementById("toggle-button").addEventListener("click", () => {
-      const container = document.getElementById("container");
-      const button = document.getElementById("toggle-button");
+      // Toggle function
+      document.getElementById("toggle-button").addEventListener("click", () => {
+        const container = document.getElementById("container");
+        const button = document.getElementById("toggle-button");
 
-      if (container.classList.contains("horizontal")) {
-        container.classList.remove("horizontal");
-        button.textContent = "Afficher côte à côte";
-      } else {
-        container.classList.add("horizontal");
-        button.textContent = "Afficher dessus/dessous";
-      }
-    });
-  </script>
-  <script
-    async
-    defer
-    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAf7UIljn6JDxuDYjCJm3o4NR4DzrdK4tA&callback=initMap"
-  ></script>
-</body>
+        if (container.classList.contains("horizontal")) {
+          container.classList.remove("horizontal");
+          button.textContent = "Afficher côte à côte";
+        } else {
+          container.classList.add("horizontal");
+          button.textContent = "Afficher dessus/dessous";
+        }
+      });
+    </script>
+    <script
+      async
+      defer
+      src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAf7UIljn6JDxuDYjCJm3o4NR4DzrdK4tA&callback=initMap"
+    ></script>
+  </body>
+	</html>
+	<footer>deez nuts</footer>
 </html>
