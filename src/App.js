@@ -5,6 +5,7 @@ import Training from "./components/Training";
 import GuessrHelpr from "./components/GuessrHelpr";
 
 const API_KEY = "AIzaSyAf7UIljn6JDxuDYjCJm3o4NR4DzrdK4tA";
+const LIBRARIES = ["places"];
 
 const initialMapContainerStyle = {
   height: "400px",
@@ -17,8 +18,12 @@ const App = () => {
   const [mapContainerStyle, setMapContainerStyle] = useState(
     initialMapContainerStyle
   );
+  const [isMapDisplayFlex, setisMapDisplayFlex] = useState(true);
   const [map, setMap] = useState(null);
   const streetViewRef = useRef(null);
+  const toggleFlex = () => {
+    setisMapDisplayFlex((prevState) => !prevState);
+  };
 
   useEffect(() => {
     if (map && streetViewRef.current) {
@@ -36,18 +41,24 @@ const App = () => {
   }, [map]);
 
   return (
-    <LoadScript googleMapsApiKey={API_KEY} libraries={["places"]}>
+    <LoadScript googleMapsApiKey={API_KEY} libraries={LIBRARIES}>
       <div>
-        <Header activeTab={activeTab} onTabChange={setActiveTab} />
+        {/* const Header = ({ activeTab, onTabChange, onToggleMap, isMapDisplayFlex }) => { */}
+        <Header
+          activeTab={activeTab}
+          onTabChange={setActiveTab}
+          toggleFlex={toggleFlex}
+          isMapDisplayFlex={isMapDisplayFlex}
+        />
         {activeTab === "training" ? (
           <Training
-            mapContainerStyle={mapContainerStyle}
-            setMapContainerStyle={setMapContainerStyle}
+            // mapContainerStyle={mapContainerStyle}
+            // setMapContainerStyle={setMapContainerStyle}
+            isMapDisplayFlex={isMapDisplayFlex}
           />
         ) : (
           <GuessrHelpr />
         )}
-        
       </div>
     </LoadScript>
   );

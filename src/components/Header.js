@@ -1,6 +1,6 @@
 import React from "react";
 
-const Header = ({ activeTab, onTabChange }) => {
+const Header = ({ activeTab, onTabChange, toggleFlex, isMapDisplayFlex }) => {
   return (
     <header className="header" style={styles.header}>
       <nav style={styles.nav}>
@@ -24,6 +24,21 @@ const Header = ({ activeTab, onTabChange }) => {
             onClick={() => onTabChange("training")}
           >
             Training
+            {activeTab === "training" && (
+              <button
+                onClick={(e) => {
+                  e.stopPropagation(); // Empêche le clic de changer l'onglet
+                  toggleFlex();
+                }}
+                style={{
+                  marginLeft: "10px",
+                  padding: "5px 10px",
+                  cursor: "pointer",
+                }}
+              >
+                {isMapDisplayFlex ? "Flex" : "Bloc"}
+              </button>
+            )}
           </li>
         </ul>
       </nav>

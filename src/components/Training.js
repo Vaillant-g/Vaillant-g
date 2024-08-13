@@ -1,5 +1,5 @@
 // src/Training.js
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
 
 // Clé API Google Maps
@@ -23,13 +23,18 @@ const center = {
   lng: 2.294351,
 };
 
-const Training = () => {
+const Training = ({ isMapDisplayFlex }) => {
   const [map, setMap] = useState(null);
   const streetViewRef = useRef(null);
 
+  // Styles pour le conteneur de la carte
+  const dynamicMapContainerStyle = {
+    ...mapContainerStyle,
+    display: isMapDisplayFlex ? "flex" : "block",
+  };
+
   useEffect(() => {
     if (map && streetViewRef.current) {
-      // Assurez-vous que l'objet google est défini avant d'utiliser
       if (window.google && window.google.maps) {
         const panorama = new window.google.maps.StreetViewPanorama(
           streetViewRef.current,
@@ -38,18 +43,27 @@ const Training = () => {
             pov: { heading: 34, pitch: 10 },
           }
         );
-
         map.setStreetView(panorama);
       }
     }
   }, [map]);
 
+  useEffect(() => {
+    // setMapStyle((prevStyle) => ({
+    //   ...prevStyle,
+    //   display: isMapDisplayFlex ? "flex" : "block",
+    // }));
+    console.log("isMapDisplayFlex", isMapDisplayFlex);
+    console.log("ABC mapContainerStyle", mapContainerStyle);
+    mapContainerStyle.display = isMapDisplayFlex ? "flex" : "bloc";
+    console.log("ABC mapContainerStyle", mapContainerStyle);
+  }, [isMapDisplayFlex]);
   return (
-    <div>
-      <div style={mapContainerStyle}>
+    <div style={mapContainerStyle}>
+      <div style={dynamicMapContainerStyle}>
         <GoogleMap
           onLoad={(map) => setMap(map)}
-          mapContainerStyle={mapContainerStyle}
+          mapContainerStyle={dynamicMapContainerStyle}
           center={center}
           zoom={2}
         >
