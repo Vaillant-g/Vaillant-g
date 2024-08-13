@@ -8,7 +8,8 @@ body {
 
 body {
   font-family: Arial, sans-serif;
-  color: white;
+  /* color: white; */
+  color: #333;  
 }
 
 .header {
@@ -29,7 +30,7 @@ body {
 
 .help {
   padding: 20px;
-  color: #333;
+  color: #333;  
   background-color: rgba(150, 150, 150, 0) !important;
 }
 

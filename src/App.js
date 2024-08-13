@@ -1,43 +1,35 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import Header from "./components/Header";
+import Training from "./components/Training";
+import GuessrHelpr from "./components/GuessrHelpr";
 
-// Clé API Google Maps
 const API_KEY = "AIzaSyAf7UIljn6JDxuDYjCJm3o4NR4DzrdK4tA";
 
-// Configuration des options pour la carte Google Maps
-const mapContainerStyle = {
+const initialMapContainerStyle = {
   height: "400px",
   width: "100%",
-};
-
-// Configuration des options pour la vue Street View
-const streetViewContainerStyle = {
-  height: "400px",
-  width: "100%",
-};
-
-// Coordonnées pour le centre de la vue
-const center = {
-  lat: 48.858844,
-  lng: 2.294351,
+  display: "block", // Valeur initiale
 };
 
 const App = () => {
+  const [activeTab, setActiveTab] = useState("training");
+  const [mapContainerStyle, setMapContainerStyle] = useState(
+    initialMapContainerStyle
+  );
   const [map, setMap] = useState(null);
   const streetViewRef = useRef(null);
 
   useEffect(() => {
     if (map && streetViewRef.current) {
-      // Assurez-vous que l'objet google est défini avant d'utiliser
       if (window.google && window.google.maps) {
         const panorama = new window.google.maps.StreetViewPanorama(
           streetViewRef.current,
           {
-            position: center,
+            position: { lat: 48.858844, lng: 2.294351 },
             pov: { heading: 34, pitch: 10 },
           }
         );
-
         map.setStreetView(panorama);
       }
     }
@@ -46,19 +38,16 @@ const App = () => {
   return (
     <LoadScript googleMapsApiKey={API_KEY} libraries={["places"]}>
       <div>
-        <div style={mapContainerStyle}>
-          <GoogleMap
-            onLoad={(map) => setMap(map)}
+        <Header activeTab={activeTab} onTabChange={setActiveTab} />
+        {activeTab === "training" ? (
+          <Training
             mapContainerStyle={mapContainerStyle}
-            center={center}
-            zoom={2}
-          >
-            {/* Vous pouvez ajouter des marqueurs ou autres éléments sur la carte ici */}
-          </GoogleMap>
-        </div>
-        <div style={streetViewContainerStyle} ref={streetViewRef}>
-          {/* La vue Street View sera rendue ici */}
-        </div>
+            setMapContainerStyle={setMapContainerStyle}
+          />
+        ) : (
+          <GuessrHelpr />
+        )}
+        
       </div>
     </LoadScript>
   );
