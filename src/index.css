@@ -1,0 +1,85 @@
+html,
+body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  color: white;
+}
+
+.header {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title {
+  margin: 0;
+  font-size: 24px;
+}
+
+.help {
+  padding: 20px;
+  color: #333;
+  background-color: rgba(150, 150, 150, 0) !important;
+}
+
+#toggle-button {
+  padding: 10px 20px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.container {
+  display: flex;
+  height: calc(100vh - 80px);
+  max-width: 1200px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  flex-direction: column;
+  padding: 0;
+  margin: 0 auto;
+}
+
+.container.horizontal {
+  flex-direction: row;
+}
+
+#map,
+#street-view {
+  flex: 1;
+  height: 100%;
+  box-sizing: border-box;
+}
+
+#map {
+  border-bottom: 2px solid #ddd;
+}
+
+#street-view {
+  border-top: 2px solid #ddd;
+}
+
+.container.horizontal #map {
+  border-bottom: none;
+  border-right: 2px solid #ddd;
+}
+
+.container.horizontal #street-view {
+  border-top: none;
+  border-left: 2px solid #ddd;
+}

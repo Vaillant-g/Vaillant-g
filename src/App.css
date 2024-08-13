@@ -1,0 +1,17 @@
+.App {
+  text-align: center;
+}
+
+#root {
+  height: 100vh; /* Assurer que le contenu remplit toute la hauteur de la fenêtre */
+}
+
+.flex-container {
+  display: flex;
+  height: 100vh;
+}
+
+.map-container, .streetview-container {
+  width: 50%;
+  height: 100%;
+}
