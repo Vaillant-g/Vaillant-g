@@ -18,13 +18,13 @@ const Header = ({ activeTab, onTabChange, toggleFlex, isMapDisplayFlex }) => {
           <li
             style={{
               ...styles.navItem,
-              backgroundColor: activeTab === "training" ? "#FFB6C1" : "#FF69B4", // Couleur différente pour chaque onglet
-              fontWeight: activeTab === "training" ? "bold" : "normal",
+              backgroundColor: activeTab === "discover" ? "#FFB6C1" : "#FF69B4", // Couleur différente pour chaque onglet
+              fontWeight: activeTab === "discover" ? "bold" : "normal",
             }}
-            onClick={() => onTabChange("training")}
+            onClick={() => onTabChange("discover")}
           >
-            Training
-            {activeTab === "training" && (
+            Discover
+            {activeTab === "discover" && (
               <button
                 onClick={(e) => {
                   e.stopPropagation(); // Empêche le clic de changer l'onglet

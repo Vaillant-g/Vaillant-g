@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
-import { GoogleMap, LoadScript } from "@react-google-maps/api";
+import { LoadScript } from "@react-google-maps/api";
 import Header from "./components/Header";
-import Training from "./components/Training";
+import Discover from "./components/Discover";
 import GuessrHelpr from "./components/GuessrHelpr";
 
 const API_KEY = "AIzaSyAf7UIljn6JDxuDYjCJm3o4NR4DzrdK4tA";
@@ -14,12 +14,12 @@ const initialMapContainerStyle = {
 };
 
 const App = () => {
-  const [activeTab, setActiveTab] = useState("training");
+  const [activeTab, setActiveTab] = useState("discover");
   const [mapContainerStyle, setMapContainerStyle] = useState(
     initialMapContainerStyle
   );
   const [isMapDisplayFlex, setisMapDisplayFlex] = useState(true);
-  const [map, setMap] = useState(null);
+  const [map] = useState(null);
   const streetViewRef = useRef(null);
   const toggleFlex = () => {
     setisMapDisplayFlex((prevState) => !prevState);
@@ -50,10 +50,10 @@ const App = () => {
           toggleFlex={toggleFlex}
           isMapDisplayFlex={isMapDisplayFlex}
         />
-        {activeTab === "training" ? (
-          <Training
-            // mapContainerStyle={mapContainerStyle}
-            // setMapContainerStyle={setMapContainerStyle}
+        {activeTab === "discover" ? (
+          <Discover
+            mapContainerStyle={mapContainerStyle}
+            setMapContainerStyle={setMapContainerStyle}
             isMapDisplayFlex={isMapDisplayFlex}
           />
         ) : (
